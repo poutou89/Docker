@@ -1,0 +1,57 @@
+exercice 1 :
+CREATE TABLE film
+	(
+		id INT PRIMARY KEY NOT NULL,
+		titre VARCHAR(255),
+		durée_en_minute INT(11),
+		date_de_sorti INT(11)
+	)
+
+INSERT INTO film (id, titre, durée_en_minute, date_de_sorti) 
+	VALUES 
+		(1, 'The Gentlemen', 113, 2020), 
+		(2, 'Kuzco', 75, 2000 ), 
+		(3, 'Joker', 122, 2019 ), 
+		(4, 'Sweeney todd', 116, 2007 ), 
+		(5, 'Princesse mononoké', 134, 1997 );
+
+
+DELETE FROM film
+WHERE durée_en_minute < 120 AND date_de_sorti < 2010
+
+exercice 2 :
+
+1-
+  SELECT ville_nom, ville_surface FROM villes_france_free
+  ORDER BY ville_surface ASC
+  LIMIT 5
+
+2-
+ SELECT ville_code_postal, ville_population_2010 FROM villes_france_free
+ ORDER BY ville_population_2010 DESC
+ LIMIT 15
+
+3-
+SELECT ville_departement, ville_nom FROM villes_france_free
+WHERE ville_nom LIKE 'P%'
+
+4-
+SELECT ville_departement, SUM(ville_population_2012) AS total_departement
+FROM villes_france_free
+GROUP BY ville_departement
+ORDER BY ville_departement ASC
+
+5-
+SELECT ville_nom FROM villes_france_free
+WHERE ville_population_1999 > 20000
+
+6-
+UPDATE villes_france_free
+SET ville_longitude_dms = REPLACE(ville_longitude_dms, '+', '*')
+
+7-
+SELECT departement_code, REVERSE(departement_nom) FROM departement
+WHERE departement_code > 970
+LIMIT 25
+
+
