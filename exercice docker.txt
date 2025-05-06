@@ -3,11 +3,11 @@ CREATE TABLE film
 	(
 		id INT PRIMARY KEY NOT NULL,
 		titre VARCHAR(255),
-		durée_en_minute INT(11),
+		duree_en_minute INT(11),
 		date_de_sorti INT(11)
 	)
 
-INSERT INTO film (id, titre, durée_en_minute, date_de_sorti) 
+INSERT INTO film (id, titre, duree_en_minute, date_de_sorti) 
 	VALUES 
 		(1, 'The Gentlemen', 113, 2020), 
 		(2, 'Kuzco', 75, 2000 ), 
@@ -17,7 +17,7 @@ INSERT INTO film (id, titre, durée_en_minute, date_de_sorti)
 
 
 DELETE FROM film
-WHERE durée_en_minute < 120 AND date_de_sorti < 2010
+WHERE duree_en_minute < 120 AND date_de_sorti < 2010
 
 exercice 2 :
 
@@ -53,5 +53,152 @@ SET ville_longitude_dms = REPLACE(ville_longitude_dms, '+', '*')
 SELECT departement_code, REVERSE(departement_nom) FROM departement
 WHERE departement_code > 970
 LIMIT 25
+
+8-
+SELECT ville_nom, ville_surface, departement_nom
+FROM villes_france_free
+FULL JOIN departement ON ville_departement = departement.departement_code
+ORDER BY ville_surface DESC
+LIMIT 5
+
+9-
+SELECT 
+  departement_nom,
+  SUM(ville_population_2010) AS population_totale
+FROM villes_france_free 
+RIGHT JOIN departement 
+  ON ville_departement = departement_code
+GROUP BY departement_nom
+
+ORDER BY population_totale DESC
+LIMIT 5;
+
+Exercice 3 :
+
+CREATE TABLE darty_elec
+	(
+		id INT PRIMARY KEY NOT NULL,
+		marque VARCHAR(255),
+		categorie VARCHAR(255),
+		prix INT(11),
+		modele VARCHAR(255)
+	)
+
+INSERT INTO darty_elec (id, marque, categorie, prix, modele)
+VALUES
+(1, 'Bosch','Lave-vaisselle', 699, 'WOP1154A'),
+(2, 'Brandt','Lave-vaisselle', 599, 'WTC1256H'),
+(3, 'Brandt','Lave-vaisselle', 699, 'WTC1356L'),
+(4, 'Gorenje', 'Lave-linge', 389, 'AD65L425F'),
+(5, 'Indesit','Lave-linge', 359, 'XP89X333G'),
+(6, 'Indesit','Lave-linge', 409, 'XP92X333L'),
+(7, 'Miele','Lave-linge', 1099, 'ME20H252V'),
+(8, 'Thomson', 'Lave-linge', 549, 'AS19Z201S'),
+(9, 'Thomson', 'Lave-linge', 699, 'AS192301S')
+
+1-
+SELECT modele, marque, categorie FROM darty_elec
+
+2-
+SELECT * FROM darty_elec;
+UPDATE darty_elec
+SET modele = ''
+WHERE marque = 'indesit'
+
+3-
+UPDATE darty_elec
+SET prix = prix - 50
+WHERE prix > 600;
+SELECT * FROM darty_elec
+
+Exercice 4 :
+
+CREATE TABLE personnage
+	(
+        id INT PRIMARY KEY NOT NULL,
+        nom VARCHAR(255),
+        metier VARCHAR(255)
+     )
+
+INSERT INTO personnage (id, nom, metier)
+VALUES
+(1, 'Leia','Brodeur de nuage'),
+(2, 'Sherlock','Dresseur de limace'),
+(3, 'Lara','Brodeur de nuage'),
+(4, 'Mario', ''),
+(5, 'Arya','Plieur de rayons'),
+(6, 'Dexter',''),
+(7, 'Neo','Plieur de rayons'),
+(8, 'Katniss', ''),
+(9, '','Tisseur de mélodie'),
+(10, '', 'Architecte de château en chocolat')
+
+1-
+SELECT * FROM personnage
+WHERE nom != '' AND metier != ''
+
+2-
+SELECT * FROM personnage
+WHERE nom != ''
+
+3-
+SELECT * FROM personnage
+WHERE nom = '' AND metier != ''
+
+Exercice 5 :
+
+CREATE TABLE client (
+id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+name VARCHAR(255)
+);
+
+INSERT INTO client (name)
+VALUES
+('Mario'),
+('Arya'),
+('Dexter'),
+('Neo'),
+('Katniss');
+
+CREATE TABLE produits (
+id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+product_name VARCHAR(255)
+);
+
+INSERT INTO produits (product_name)
+VALUES
+('Sale-glace'),
+('Essuie glace de lunette de soleil'),
+('Aerosole d'air');
+
+CREATE TABLE produits 
+	(
+	id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	users_id INT(255) NOT NULL,
+	product_id INT(255) NOT NULL,
+	notes INT(255)
+	);
+
+INSERT INTO produits (users_id, product_id, notes)
+VALUES
+(1, 1, 2),
+(1, 2, 5),
+(1, 3, 3),
+(2, 2, 2),
+(2, 3, 1),
+(3, 1, 5),
+(4, 1, 5),
+(5, 2, 1),
+(5, 3, 4);
+
+1-
+
+SELECT product_name, SUM(notes)
+FROM produits
+LEFT JOIN produits
+ON product_id = produits.id
+GROUP BY product_id
+
+
 
 
